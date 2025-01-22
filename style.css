@@ -111,6 +111,7 @@ main {
     justify-content: flex-start;
     padding-left: 4%;
     /* padding-top: 4%; */
+    user-select: none;
 }
 
 .current-verse {
