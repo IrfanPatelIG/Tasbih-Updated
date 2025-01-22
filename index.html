@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasbeeh</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body class="flex">
+
+    <div class="background-img" id="img-opacity"></div>
+
+    <div class="heading border-b hover-bg H-D tx-sh">
+        <h1>Tasbeeh</h1>
+    </div>
+
+    <header class="flex">
+        <div class="counts flex  H-D">
+            <div class="current-total flex border-b hover-bg tx-sh">
+                <span>Current: </span><span id="current-total-number"></span>
+            </div>
+
+            <div class="total hover-bg flex tx-sh">
+                <div><span>Total: </span><span id="total-number"></span></div>
+                <div class="reset-total flex" id="total-reset" onclick="reset()">
+                    <img src="reset.png" alt="Reset">
+                </div>
+            </div>
+        </div>
+
+        <div class="verse-text flex">
+            <div class="current-verse H-P tx-sh"><span id="verse" onclick="changeMax()">Subhanallah</span></div>
+        </div>
+    </header>
+
+    <main class="flex">
+        <div class="increment-decrement flex">
+            <div class="increment-btn flex border-t" id="incre-btn" onclick="plus()"><a  id="incre-btn-a" href="">+</a></div>
+            <div class="decrement-btn flex border-t" id="decre-btn" onclick="minus()"><a id="decre-btn-a"  href="">-</a></div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
