@@ -20,20 +20,26 @@
 
     <header class="flex">
         <div class="counts flex  H-D">
-            <div class="current-total flex border-b hover-bg tx-sh">
-                <span>Current: </span><span id="current-total-number"></span>
+            <div class="max-count-change flex">
+                <div id="max" ></div>
             </div>
 
-            <div class="total hover-bg flex tx-sh">
-                <div><span>Total: </span><span id="total-number"></span></div>
-                <div class="reset-total flex" id="total-reset" onclick="reset()">
-                    <img src="reset.png" alt="Reset">
+            <div class="counts-inner">
+                <div class="current-total flex border-b hover-bg tx-sh">
+                    <span>Current: </span><span id="current-total-number"></span>
+                </div>
+    
+                <div class="total hover-bg flex tx-sh">
+                    <div><span>Total: </span><span id="total-number"></span></div>
+                    <div class="reset-total flex" id="total-reset" onclick="reset()">
+                        <img src="reset.png" alt="Reset">
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="verse-text flex">
-            <div class="current-verse H-P tx-sh"><span id="verse" onclick="changeMax()">Subhanallah</span></div>
+            <div class="current-verse H-P tx-sh"><span id="verse">Subhanallah</span></div>
         </div>
     </header>
 
@@ -44,7 +50,8 @@
         </div>
     </main>
 
-    <script src="script.js"></script>
+    <script src="script.js">
+    </script>
 </body>
 
 </html>
