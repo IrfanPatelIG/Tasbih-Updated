@@ -11,6 +11,8 @@ let tasbeeh_verse = {
     6 : "Sallallahu alaihi wasallam | صَلَّى ٱللَّٰهُ عَلَيْهِ وَسَلَّمَ"
 }
 
+let maxDiv = document.getElementById("max");
+
 const i_btn = document.getElementById("incre-btn");
 const d_btn = document.getElementById("decre-btn");
 let verse = document.getElementById("verse");
@@ -32,7 +34,8 @@ let max = 100;
 
 
 if (num == 0) {
-    curr_total.innerHTML = `${num}/${max}`;
+    maxDiv.textContent = max;
+    curr_total.textContent = `${num}/${max}`;
     total.innerHTML = "0";
 }
 
@@ -40,7 +43,7 @@ const body_bg = document.body;
 let bg_num = 1;
 
 const bg_opacity = document.getElementById("img-opacity");
-let bg_opacity_num = 100; 
+let bg_opacity_num = 100;
 let bg_op_num =  bg_opacity_num;
 
 let bg_ob = {
@@ -75,64 +78,39 @@ function plus() {
         verse.innerText = `${tasbeeh_verse[verse_num]}`;
         // verse_num = verse_num < Object.keys(tasbeeh_verse).length ? verse_num + 1 : 1;
 
-        /* Randomly generate the number for background */
-        // let ran = Math.floor(Math.random()*(Object.keys(bg_ob).length)) + 1;
-        // bg_num = ran;
-
         /* Sequntially changes the background */
         bg_num = bg_num >= Object.keys(bg_ob).length ? 1 : bg_num += 1;
+        document.querySelector(".background-img").style.transitionDelay = '0';
         body_bg.style.backgroundImage = `url(${bg_ob[bg_num]})`;
-        
+            
         bg_op_num = bg_opacity_num;
         bg_opacity.style.backgroundColor = `rgb(0 0 0 / ${bg_op_num}%)`
-
+            
         console.log(`Background no: ${bg_num}`);
-        
         return
     }
     num += 1;
     t_num += 1;
 
-    bg_op_num -= 1;
+    // Background opacity handler
+    if (max === 100) {
+        bg_op_num -= 1;
+        console.log(`Bg-op: ${bg_op_num}`)
+    }
+    else {
+        if (num == max) {
+            bg_op_num -= 4;
+            console.log(`Bg-op: ${bg_op_num}`)
+        }
+        bg_op_num -= 3;
+        console.log(`Bg-op: ${bg_op_num}`)
+    }
     bg_opacity.style.backgroundColor = `rgb(0 0 0 / ${bg_op_num}%)`
 
     curr_total.innerHTML = `${num}/${max}`;
     total.innerHTML = t_num;
     return;
 }
-
-//Not Functional
-function changeMax() {
-    if (max === 99) max = 33;
-    if (max === 33) max = 99;
-    if (num >= max) {
-        num = max;
-    }
-    curr_total.innerHTML = `${num}/${max}`;
-    return
-}
-
-/*
-function minus() {
-    num -= 1;
-    if (num !== 0) {
-        t_num -= 1;
-    }
-    bg_op_num += 1;
-    bg_opacity.style.backgroundColor = `rgb(0 0 0 / ${bg_op_num}%)`
-
-    if (num <= 0 || t_num <= 0) {
-        num = 0;
-        bg_op_num = bg_opacity_num;
-        bg_opacity.style.backgroundColor = `rgb(0 0 0 / ${bg_op_num}%)`
-        
-        if (t_num <= 0) t_num = 0;
-        total.innerHTML = t_num;
-    }
-    curr_total.innerHTML = `${num}/${max}`;
-    total.innerHTML = t_num;
-    return;
-} */
 
 function minus() {
     de_btn_a.innerText = "";
@@ -144,7 +122,32 @@ function minus() {
         num -= 1;
     }
 
-    bg_op_num += 1;
+    // Background opacity handler
+    if (max === 100) {
+        if(bg_op_num >= 100) {
+            bg_op_num = 100
+            console.log(`Bg-op: ${bg_op_num}`)
+        }
+        else {
+            bg_op_num += 1
+            console.log(`Bg-op: ${bg_op_num}`)
+        }
+        // bg_op_num += 1
+        // console.log(`Bg-op: ${bg_op_num}`)
+    }
+    else {
+        if(bg_op_num >= 100) {
+            bg_op_num = 100
+            console.log(`Bg-op: ${bg_op_num}`)
+        }
+        else {
+            if (bg_op_num == 100) bg_op_num += 4
+            bg_op_num += 3
+            console.log(`Bg-op: ${bg_op_num}`)
+        }
+        // bg_op_num += 3
+        // console.log(`Bg-op: ${bg_op_num}`)
+    }
     bg_opacity.style.backgroundColor = `rgb(0 0 0 / ${bg_op_num}%)`;
 
     if (num < 0) num = 0;
@@ -154,25 +157,109 @@ function minus() {
     total.innerHTML = t_num;
 }
 
+// Changing max value
+function cahngeMax() {
+    if (max === 100) {
+        max = 33;
+        maxDiv.textContent = max;
+        bg_op_num = 100 - num;
+    }
+    else if (max === 33) {
+        max = 100;
+        maxDiv.textContent = max;
+        bg_op_num = 100 - num;
+    }
+    if (num >= max) {
+        num = max;
+        bg_op_num = 0;
+        bg_opacity.style.backgroundColor = `rgb(0 0 0 / ${bg_op_num}%)`;
+    }
+     
+    curr_total.innerHTML = `${num}/${max}`;
+    console.log(`Changed max to: ${max}`)
+}
+
+maxDiv.addEventListener("click", ()=>{
+
+    cahngeMax();
+    
+});
 
 
 const tr = document.getElementById("total-reset")
 const tn = document.getElementById("total-number")
 
 function reset() {
-    num = 0;
-    t_num = 0;
-
-    bg_op_num =  bg_opacity_num;
-    // bg_op_num =  0;
-    bg_opacity.style.backgroundColor = `rgb(0 0 0 / ${bg_op_num}%)`;
-
-    ran = Math.floor(Math.random()*(Object.keys(bg_ob).length)) + 1;
-    bg_num = ran;
-    body_bg.style.backgroundImage = `url(${bg_ob[bg_num]})`;
-    console.log(`Background no: ${ran}`);
-
-    tn.innerHTML = "0";
-    curr_total.innerHTML = `${num}/${max}`;
+    if (num > 0 && t_num > 0) {
+        let cReset = confirm("Are you sure you want to reset all your counter to 0?")
+        if (cReset) {
+            num = 0;
+            t_num = 0;
+    
+            bg_op_num =  bg_opacity_num;
+            bg_opacity.style.backgroundColor = `rgb(0 0 0 / ${bg_op_num}%)`;
+    
+            ran = Math.floor(Math.random()*(Object.keys(bg_ob).length)) + 1;
+            bg_num = ran;
+            body_bg.style.backgroundImage = `url(${bg_ob[bg_num]})`;
+            console.log(`Background no: ${ran}`);
+    
+            tn.innerHTML = "0";
+            curr_total.innerHTML = `${num}/${max}`;
+    
+            console.log("The counter has been reset to 0.")
+        }
+        else {
+            console.log("You canceled the reset.")
+        }
+    }
+    else {
+        console.log("Counters are already at 0.\nNo reset needed.");
+    }
     return
 }
+
+function changeTasbeeh() {
+    
+    verse_num = verse_num >= Object.keys(tasbeeh_verse).length ? 1 : verse_num + 1;
+    verse.innerText = `${tasbeeh_verse[verse_num]}`;
+
+}
+
+
+verse.addEventListener("click", (e)=>{
+    changeTasbeeh();
+})
+
+verse.addEventListener("dblclick", (e)=>{
+    let newVerse = prompt("Type your custom verse for Tasbeeh here.");
+    if(newVerse){
+        verse.textContent = `${newVerse}`;
+    }
+})
+
+// Incrementing and Decrementing by Keyboard buttons
+document.addEventListener("keydown", (e)=>{
+    // console.log(e.key)
+    if(e.key == "ArrowUp" || e.key == "w" || e.key == "W") {
+        plus();
+    }
+    else if(e.key == "ArrowRight" || e.key == "d" || e.key == "D") {
+        plus();
+    }
+    else if (e.key == "ArrowDown" || e.key == "s" || e.key == "S") {
+        minus();
+    }
+    else if (e.key == "ArrowLeft" || e.key == "a" || e.key == "A") {
+        minus();
+    }
+    else if (e.key == "c" || e.key == "C") {
+        cahngeMax();
+    }
+    else if (e.key == "t" || e.key == "T") {
+        changeTasbeeh();
+    }
+    else if (e.key == "r" || e.key == "R") {
+        reset();
+    }
+})
