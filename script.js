@@ -116,7 +116,7 @@ function plus() {
         curr_total.innerHTML = `${num}/${max}`;
         
         if (checkbox_Sound.checked) {
-            playFinishSound();
+            playFinishSound(.21);
             vibrateDevice(highVibrate);
         }
 
