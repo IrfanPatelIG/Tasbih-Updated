@@ -12,6 +12,8 @@
 
 <body class="flex">
 
+    <audio id="tap-sound" src="sounds/smooth-pop.mp3"></audio>
+
     <div class="background-img" id="img-opacity"></div>
 
     <div class="heading border-b hover-bg H-D tx-sh">
@@ -21,12 +23,16 @@
     <header class="flex">
         <div class="counts flex  H-D">
             <div class="max-count-change flex">
+                <div class="sound"><input type="checkbox" name="sound-play" id="sound-checkbox"></div>
                 <div id="max" ></div>
             </div>
 
             <div class="counts-inner">
                 <div class="current-total flex border-b hover-bg tx-sh">
-                    <span>Current: </span><span id="current-total-number"></span>
+                    <div>
+                        <span>Current: </span><span id="current-total-number"></span>
+                    </div>
+                    <span id="total-tasbeeh-number"></span>
                 </div>
     
                 <div class="total hover-bg flex tx-sh">
