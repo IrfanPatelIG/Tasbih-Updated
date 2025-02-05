@@ -49,7 +49,7 @@ if (num == 0) {
 
 // for Background purpose
 const body_bg = document.body;
-let bg_num = 1;
+let bg_num = 3;
 const bg_opacity = document.getElementById("img-opacity");  // HTML tag on which Oapcity has to be set
 let bg_opacity_num = 100;  // for Manipulating Opacity value (variable: number)
 let bg_op_num =  bg_opacity_num;  // for assigning Opacity Value to the HTML tag
