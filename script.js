@@ -114,7 +114,11 @@ function plus() {
     if (num >= max) {
         num = 0
         curr_total.innerHTML = `${num}/${max}`;
-        playFinishSound(0.71);
+        
+        if (checkbox_Sound.checked) {
+            playFinishSound();
+            vibrateDevice(highVibrate);
+        }
 
         if (t_num) {
             // tasbeeh count increasing
