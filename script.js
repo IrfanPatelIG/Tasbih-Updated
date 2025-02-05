@@ -11,40 +11,49 @@ let tasbeeh_verse = {
     6 : "Sallallahu alaihi wasallam | صَلَّى ٱللَّٰهُ عَلَيْهِ وَسَلَّمَ"
 }
 
-let maxDiv = document.getElementById("max");
+const i_btn = document.getElementById("incre-btn"); // Incremnet Button
+const d_btn = document.getElementById("decre-btn"); // Decremnet Button
+console.log(i_btn);
+console.log(d_btn);
+const Sound = document.getElementById("tap-sound"); // Audio tag
+Sound.volume = 0.5;
 
-const i_btn = document.getElementById("incre-btn");
-const d_btn = document.getElementById("decre-btn");
-let verse = document.getElementById("verse");
-verse.innerText = `${tasbeeh_verse[1]}`;
-
+// for Plus and Minus Symbols
 const in_btn_a = document.getElementById("incre-btn-a");
 const de_btn_a = document.getElementById("decre-btn-a");
 
-console.log(i_btn);
-console.log(d_btn);
+// for Tasbeeh Verse
+let verse = document.getElementById("verse");
+verse.innerText = `${tasbeeh_verse[1]}`;
+let verse_num = 1;
 
-const curr_total = document.getElementById("current-total-number");
-const total = document.getElementById("total-number");
-
+// To Display Numbers
+let maxDiv = document.getElementById("max");
+let curr_total = document.getElementById("current-total-number");
+let total = document.getElementById("total-number");
+let total_tasbeeh_number = document.getElementById("total-tasbeeh-number");
+// Required variables for numbers manipulation
 let num = 0;
 let t_num = 0;
 let total_tasbeeh = 0;
+let total_tasbeeh_count = 0;
 let max = 100;
 
-
+// displaying Initial values
 if (num == 0) {
     maxDiv.textContent = max;
     curr_total.textContent = `${num}/${max}`;
     total.innerHTML = "0";
+    total_tasbeeh_number.innerHTML = "0";
 }
 
+// for Background purpose
 const body_bg = document.body;
 let bg_num = 1;
-
-const bg_opacity = document.getElementById("img-opacity");
-let bg_opacity_num = 100;
-let bg_op_num =  bg_opacity_num;
+const bg_opacity = document.getElementById("img-opacity");  // HTML tag on which Oapcity has to be set
+let bg_opacity_num = 100;  // for Manipulating Opacity value (variable: number)
+let bg_op_num =  bg_opacity_num;  // for assigning Opacity Value to the HTML tag
+let ran = 1;  // to assign random background after reset() called
 
 let bg_ob = {
     "1" : "backgrounds/bg-1.jpg",
@@ -63,20 +72,60 @@ console.log(`Background no: ${bg_num}`);
 body_bg.style.backgroundImage = `url(${bg_ob[bg_num]})`;
 bg_opacity.style.backgroundColor = `rgb(0 0 0 / ${bg_op_num}%)`;
 
-let verse_num = 1;
-let ran = 1;
 
+// for Sound Enabled Checking
+const checkbox_Sound = document.getElementById("sound-checkbox");
+
+// Tap-Sound function
+function playTapSound() {
+    Sound.src = "sounds/smooth-pop.mp3";
+    Sound.playbackRate = 1.7;
+    Sound.currentTime = 0.025;
+    Sound.play();
+    Sound.currentTime = 0.025;
+}
+// Complete sound function
+function playFinishSound(vol) {
+    Sound.src = "sounds/quick-win-notification.wav";
+    Sound.volume = vol;
+    Sound.playbackRate = 1.51;
+    Sound.currentTime = 0.05;
+    Sound.play();
+}
+
+// Vibration on click 
+let lowVibrate = 50;
+let highVibrate = 350;
+function vibrateDevice(value) {
+    if (navigator.vibrate) {
+        navigator.vibrate(value); // Vibrates for 1000 milliseconds (1 second)
+        // console.log("Vibrator is available")
+        // console.log("Vbrating frequency", value)
+    }
+}
+
+// Increment button logic
 function plus() {
+    if (checkbox_Sound.checked) {
+        playTapSound();
+    }
+    vibrateDevice(lowVibrate);
     in_btn_a.innerText = "";
     if (num >= max) {
         num = 0
         curr_total.innerHTML = `${num}/${max}`;
+        playFinishSound(0.71);
+
+        if (t_num) {
+            // tasbeeh count increasing
+            total_tasbeeh_count ++;
+            total_tasbeeh_number.innerHTML = total_tasbeeh_count;
+        }
         
         //                    IF        TRUE : FALSE
         // variablename = (condition) ? value1:value2
         verse_num = verse_num >= Object.keys(tasbeeh_verse).length ? 1 : verse_num + 1;
         verse.innerText = `${tasbeeh_verse[verse_num]}`;
-        // verse_num = verse_num < Object.keys(tasbeeh_verse).length ? verse_num + 1 : 1;
 
         /* Sequntially changes the background */
         bg_num = bg_num >= Object.keys(bg_ob).length ? 1 : bg_num += 1;
@@ -86,7 +135,7 @@ function plus() {
         bg_op_num = bg_opacity_num;
         bg_opacity.style.backgroundColor = `rgb(0 0 0 / ${bg_op_num}%)`
             
-        console.log(`Background no: ${bg_num}`);
+        // console.log(`Background no: ${bg_num}`);
         return
     }
     num += 1;
@@ -112,7 +161,12 @@ function plus() {
     return;
 }
 
+// Decremnet button logic
 function minus() {
+    if (checkbox_Sound.checked) {
+        playTapSound();
+    }
+    vibrateDevice(lowVibrate);
     de_btn_a.innerText = "";
     if (num > 0) {
         num -= 1;
@@ -132,8 +186,6 @@ function minus() {
             bg_op_num += 1
             console.log(`Bg-op: ${bg_op_num}`)
         }
-        // bg_op_num += 1
-        // console.log(`Bg-op: ${bg_op_num}`)
     }
     else {
         if(bg_op_num >= 100) {
@@ -145,13 +197,14 @@ function minus() {
             bg_op_num += 3
             console.log(`Bg-op: ${bg_op_num}`)
         }
-        // bg_op_num += 3
-        // console.log(`Bg-op: ${bg_op_num}`)
     }
     bg_opacity.style.backgroundColor = `rgb(0 0 0 / ${bg_op_num}%)`;
 
     if (num < 0) num = 0;
-    if (t_num < 0) t_num = 0;
+    if (t_num <= 0) {
+        Sound.volume = 0.0;
+        t_num = 0
+    };
 
     curr_total.innerHTML = `${num}/${max}`;
     total.innerHTML = t_num;
@@ -174,27 +227,23 @@ function cahngeMax() {
         bg_op_num = 0;
         bg_opacity.style.backgroundColor = `rgb(0 0 0 / ${bg_op_num}%)`;
     }
-     
+    
     curr_total.innerHTML = `${num}/${max}`;
     console.log(`Changed max to: ${max}`)
 }
 
 maxDiv.addEventListener("click", ()=>{
-
-    cahngeMax();
-    
+    cahngeMax(); 
 });
 
-
-const tr = document.getElementById("total-reset")
-const tn = document.getElementById("total-number")
-
 function reset() {
-    if (num > 0 && t_num > 0) {
+    if (num > 0 || t_num > 0) {
+        vibrateDevice(highVibrate);
         let cReset = confirm("Are you sure you want to reset all your counter to 0?")
         if (cReset) {
             num = 0;
             t_num = 0;
+            total_tasbeeh_count = 0;
     
             bg_op_num =  bg_opacity_num;
             bg_opacity.style.backgroundColor = `rgb(0 0 0 / ${bg_op_num}%)`;
@@ -203,9 +252,13 @@ function reset() {
             bg_num = ran;
             body_bg.style.backgroundImage = `url(${bg_ob[bg_num]})`;
             console.log(`Background no: ${ran}`);
-    
-            tn.innerHTML = "0";
+
             curr_total.innerHTML = `${num}/${max}`;
+            total_tasbeeh_number.innerHTML = total_tasbeeh_count;
+
+            setTimeout(()=>{
+                total.innerHTML = t_num;
+            }, 1000)
     
             console.log("The counter has been reset to 0.")
         }
@@ -220,17 +273,16 @@ function reset() {
 }
 
 function changeTasbeeh() {
-    
     verse_num = verse_num >= Object.keys(tasbeeh_verse).length ? 1 : verse_num + 1;
     verse.innerText = `${tasbeeh_verse[verse_num]}`;
-
 }
 
-
+// to cahnge the Current displaying Verse
 verse.addEventListener("click", (e)=>{
     changeTasbeeh();
 })
 
+// to cahnge the Current displaying Verse to the User specified Verse
 verse.addEventListener("dblclick", (e)=>{
     let newVerse = prompt("Type your custom verse for Tasbeeh here.");
     if(newVerse){
@@ -238,8 +290,8 @@ verse.addEventListener("dblclick", (e)=>{
     }
 })
 
-// Incrementing and Decrementing by Keyboard buttons
-document.addEventListener("keydown", (e)=>{
+// Incrementing / Decrementing by Keyboard buttons
+document.addEventListener("keyup", (e)=>{
     // console.log(e.key)
     if(e.key == "ArrowUp" || e.key == "w" || e.key == "W") {
         plus();
@@ -261,5 +313,15 @@ document.addEventListener("keydown", (e)=>{
     }
     else if (e.key == "r" || e.key == "R") {
         reset();
+    }
+})
+
+// for Fast incrementing / decrementing by Keyboard buttons
+document.addEventListener("keydown", (e) => {
+    if (e.ctrlKey) {
+        if (e.key == "ArrowUp") plus()
+        else if (e.key == "ArrowDown") minus()
+        else if (e.key == "ArrowRight") plus()
+        else if (e.key == "ArrowLeft") minus()
     }
 })
