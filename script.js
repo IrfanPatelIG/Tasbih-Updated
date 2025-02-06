@@ -16,7 +16,7 @@ const d_btn = document.getElementById("decre-btn"); // Decremnet Button
 console.log(i_btn);
 console.log(d_btn);
 const Sound = document.getElementById("tap-sound"); // Audio tag
-Sound.volume = 0.5;
+Sound.volume = 1;
 
 // for Plus and Minus Symbols
 const in_btn_a = document.getElementById("incre-btn-a");
