@@ -79,6 +79,7 @@ const checkbox_Sound = document.getElementById("sound-checkbox");
 // Tap-Sound function
 function playTapSound() {
     Sound.src = "sounds/smooth-pop.mp3";
+    Sound.volume = 1;
     Sound.playbackRate = 1.7;
     Sound.currentTime = 0.025;
     Sound.play();
