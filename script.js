@@ -205,10 +205,7 @@ function minus() {
     bg_opacity.style.backgroundColor = `rgb(0 0 0 / ${bg_op_num}%)`;
 
     if (num < 0) num = 0;
-    if (t_num <= 0) {
-        Sound.volume = 0.0;
-        t_num = 0
-    };
+    if (t_num <= 0) t_num = 0;
 
     curr_total.innerHTML = `${num}/${max}`;
     total.innerHTML = t_num;
