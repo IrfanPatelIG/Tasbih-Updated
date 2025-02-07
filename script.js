@@ -118,8 +118,8 @@ function plus() {
         
         if (checkbox_Sound.checked) {
             playFinishSound(.21);
-            vibrateDevice(highVibrate);
         }
+        vibrateDevice(highVibrate);
 
         if (t_num) {
             // tasbeeh count increasing
