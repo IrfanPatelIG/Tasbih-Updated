@@ -16,7 +16,7 @@ const d_btn = document.getElementById("decre-btn"); // Decremnet Button
 console.log(i_btn);
 console.log(d_btn);
 const Sound = document.getElementById("tap-sound"); // Audio tag
-Sound.volume = 1;
+Sound.volume = 0.5;
 
 // for Plus and Minus Symbols
 const in_btn_a = document.getElementById("incre-btn-a");
@@ -26,6 +26,9 @@ const de_btn_a = document.getElementById("decre-btn-a");
 let verse = document.getElementById("verse");
 verse.innerText = `${tasbeeh_verse[1]}`;
 let verse_num = 1;
+
+let img33 = "assets/33.png";
+let img100 = "assets/100.png";
 
 // To Display Numbers
 let maxDiv = document.getElementById("max");
@@ -41,7 +44,7 @@ let max = 100;
 
 // displaying Initial values
 if (num == 0) {
-    maxDiv.textContent = max;
+    maxDiv.style.backgroundImage = `url(${img100})`;
     curr_total.textContent = `${num}/${max}`;
     total.innerHTML = "0";
     total_tasbeeh_number.innerHTML = "0";
@@ -49,7 +52,7 @@ if (num == 0) {
 
 // for Background purpose
 const body_bg = document.body;
-let bg_num = 3;
+let bg_num = 1;
 const bg_opacity = document.getElementById("img-opacity");  // HTML tag on which Oapcity has to be set
 let bg_opacity_num = 100;  // for Manipulating Opacity value (variable: number)
 let bg_op_num =  bg_opacity_num;  // for assigning Opacity Value to the HTML tag
@@ -75,24 +78,44 @@ bg_opacity.style.backgroundColor = `rgb(0 0 0 / ${bg_op_num}%)`;
 
 // for Sound Enabled Checking
 const checkbox_Sound = document.getElementById("sound-checkbox");
+const sound_img = document.getElementById("sound-img");
+// checkbox eventListener for checking sound Enabled / not 
+checkbox_Sound.addEventListener("click", ()=>{
+    if(checkbox_Sound.checked == true) {
+        sound_img.style.backgroundImage = `url(assets/sound-on.png)`
+    } else {
+        sound_img.style.backgroundImage = `url(assets/sound-off.png)`
+    }
+});
 
 // Tap-Sound function
 function playTapSound() {
     Sound.src = "sounds/smooth-pop.mp3";
-    Sound.volume = 1;
     Sound.playbackRate = 1.7;
-    Sound.currentTime = 0.025;
+    Sound.currentTime = 0.05;
     Sound.play();
-    Sound.currentTime = 0.025;
+    Sound.currentTime = 0.05;
 }
 // Complete sound function
 function playFinishSound(vol) {
     Sound.src = "sounds/quick-win-notification.wav";
     Sound.volume = vol;
     Sound.playbackRate = 1.51;
-    Sound.currentTime = 0.05;
+    Sound.currentTime = 0.13;
     Sound.play();
 }
+
+
+// Vibration Enabled Checking 
+const checkbox_Vibrate = document.getElementById("vibrate-checkbox");
+const vibrate_img = document.getElementById("vibrate-img");
+checkbox_Vibrate.addEventListener("click", ()=>{
+    if(checkbox_Vibrate.checked == true) {
+        vibrate_img.style.backgroundImage = `url("assets/vibrate-on.png")`
+    } else {
+        vibrate_img.style.backgroundImage = `url("assets/vibrate-off.png")`
+    }
+})
 
 // Vibration on click 
 let lowVibrate = 50;
@@ -110,7 +133,9 @@ function plus() {
     if (checkbox_Sound.checked) {
         playTapSound();
     }
-    vibrateDevice(lowVibrate);
+    if (checkbox_Vibrate.checked) {
+        vibrateDevice(lowVibrate);
+    }
     in_btn_a.innerText = "";
     if (num >= max) {
         num = 0
@@ -119,7 +144,9 @@ function plus() {
         if (checkbox_Sound.checked) {
             playFinishSound(.21);
         }
-        vibrateDevice(highVibrate);
+        if (checkbox_Vibrate.checked) {
+            vibrateDevice(highVibrate);
+        }
 
         if (t_num) {
             // tasbeeh count increasing
@@ -171,7 +198,9 @@ function minus() {
     if (checkbox_Sound.checked) {
         playTapSound();
     }
-    vibrateDevice(lowVibrate);
+    if (checkbox_Vibrate.checked) {
+        vibrateDevice(lowVibrate);
+    }
     de_btn_a.innerText = "";
     if (num > 0) {
         num -= 1;
@@ -206,7 +235,10 @@ function minus() {
     bg_opacity.style.backgroundColor = `rgb(0 0 0 / ${bg_op_num}%)`;
 
     if (num < 0) num = 0;
-    if (t_num <= 0) t_num = 0;
+    if (t_num <= 0) {
+        Sound.volume = 0.0;
+        t_num = 0
+    };
 
     curr_total.innerHTML = `${num}/${max}`;
     total.innerHTML = t_num;
@@ -216,12 +248,12 @@ function minus() {
 function cahngeMax() {
     if (max === 100) {
         max = 33;
-        maxDiv.textContent = max;
+        maxDiv.style.backgroundImage = `url(${img33})`;
         bg_op_num = 100 - num;
     }
     else if (max === 33) {
         max = 100;
-        maxDiv.textContent = max;
+        maxDiv.style.backgroundImage = `url(${img100})`;
         bg_op_num = 100 - num;
     }
     if (num >= max) {
@@ -240,7 +272,9 @@ maxDiv.addEventListener("click", ()=>{
 
 function reset() {
     if (num > 0 || t_num > 0) {
-        vibrateDevice(highVibrate);
+        if (checkbox_Vibrate.checked) {
+            vibrateDevice(highVibrate);
+        }
         let cReset = confirm("Are you sure you want to reset all your counter to 0?")
         if (cReset) {
             num = 0;
@@ -275,6 +309,9 @@ function reset() {
 }
 
 function changeTasbeeh() {
+    if (checkbox_Vibrate.checked) {
+        vibrateDevice(lowVibrate);
+    }
     verse_num = verse_num >= Object.keys(tasbeeh_verse).length ? 1 : verse_num + 1;
     verse.innerText = `${tasbeeh_verse[verse_num]}`;
 }
