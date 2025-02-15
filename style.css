@@ -15,6 +15,10 @@
     --red-bg-color: rgba(219, 27, 13, 0.281); 
 }
 
+::selection {
+    background-color: #666;
+}
+
 body {
     width: 100vw;
     height: 100vh;
@@ -166,32 +170,72 @@ main {
     user-select: none;
 }
 .sound {
-    width: 30px;
-    height: 30px;
+    width: 35px;
+    height: 35px;
     position: relative;
 }
 #sound-checkbox{
     width: 100%;
     height: 100%;
-    cursor: pointer;
     position: absolute;
     top: 0px;
+    opacity: 0%;
 }
 #sound-checkbox:hover {
+    cursor: pointer;
     background-color: #ddd;
     border-color: #666;
 }
+#sound-img {
+    width: 100%;
+    height: 100%;
+    padding: 1px;
+    /* margin-left: 30px; */
+    /* border: 1px solid var(--green-bg-color); */
+    background-image: url("assets/sound-off.png");
+    background-size: 90%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.sound-vibrate {
+    gap: 12px;
+    overflow: hidden;
+}
+
+.vibrate {
+    width: 35px;
+    height: 35px;
+    justify-self: flex-start;
+    background-image: url("assets/vibrate-on.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.vibrate > input {
+    width: 100%;
+    height: 100%;
+    opacity: 0%;
+    cursor: pointer;
+}
+
 .max-count-change > div:hover {
     cursor: pointer;
 }
 .max-count-change > div:last-child {
-    width: fit-content;
-    padding: 0 8px;
+    display: flex;
+    width: 64px;
+    height: 58px;
+    /* padding: 0 8px; */
     font-size: larger;
     text-align: center;
     outline: 1px solid goldenrod;
     border-radius: 8px;
     color: var(--green-bg-color);
+    background-image: url("assets/100.png");
+    background-size: 125%;
+    background-position: center;
+    background-repeat: no-repeat;
     /* background-color: rgb(7, 211, 143); */
 }
 
@@ -210,28 +254,33 @@ main {
     gap: 8px;
     padding-right: 15px;
 }
+.current-total > div {
+    text-wrap: nowrap;
+}
+.current-text {
+    font-size: 24px;
+}
 #current-total-number {
-    font-size: 40px;
+    font-size: 38px;
 }
 
 .total {
     width: 100%;
     justify-content: space-between;
-    padding: 0 4px;
-    font-size: 19px;
+    padding: 2px 4px;
+    font-size: 20px;
     flex-basis: 20%;
 }
 
 .reset-total {
     width: 34px;
     height: 34px;
-    border-radius: 12px;
+    border-radius: 4px;
 }
 .reset-total > img {
     width: 30px;
     height: 30px;
     padding: 3px;
-    border-radius: 12px;
 }
 .reset-total:hover {
     background-color: var(--red-bg-color);
@@ -304,12 +353,8 @@ main {
         border-bottom: 1px solid var(--green-bg-color);
     }
 
-    #current-total-number {
-        font-size: 46px;
-    }
-
     .total {
-        font-size: 26px;
+        font-size: 24px;
     }
 
     .reset-total{
@@ -331,14 +376,14 @@ main {
 @media (max-width: 425px) and (max-height: 600px) {
 
     .verse-text {
-        width: 100%;
+        width: 100vw;
         padding: 8px;
         justify-content: center;
         background-color: var(--t-bg-color);
     }
 
     .current-verse {
-        font-size: 16px;
+        font-size: 100%;
     }
 
     .counts {
@@ -348,12 +393,13 @@ main {
         gap: 2px;
         border-bottom: 1px solid var(--green-bg-color);
     }
+
     #current-total-number {
-        font-size: 38px;
+        font-size: 32px;
     }
 
     .total {
-        font-size: 22px;
+        font-size: 20px;
     }
 
     .reset-total{
