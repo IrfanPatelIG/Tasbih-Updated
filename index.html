@@ -23,20 +23,32 @@
     <header class="flex">
         <div class="counts flex  H-D">
             <div class="max-count-change flex">
-                <div class="sound"><input type="checkbox" name="sound-play" id="sound-checkbox"></div>
+                <div class="sound-vibrate flex">
+                    <div class="sound">
+                        <input type="checkbox" name="sound-play" id="sound-checkbox">
+                        <div id="sound-img"></div>
+                    </div>
+                    <div class="vibrate" id="vibrate-img">
+                        <input type="checkbox" name="vibration" id="vibrate-checkbox" checked>
+                    </div>
+                </div>
+                
                 <div id="max" ></div>
             </div>
 
             <div class="counts-inner">
                 <div class="current-total flex border-b hover-bg tx-sh">
                     <div>
-                        <span>Current: </span><span id="current-total-number"></span>
+                        <span class="current-text">Current: </span><span id="current-total-number"></span>
                     </div>
-                    <span id="total-tasbeeh-number"></span>
                 </div>
     
                 <div class="total hover-bg flex tx-sh">
-                    <div><span>Total: </span><span id="total-number"></span></div>
+                    <div>
+                        <span>Total: </span><span id="total-number"></span>
+                        | <span id="total-tasbeeh-number"></span>
+                        
+                    </div>
                     <div class="reset-total flex" id="total-reset" onclick="reset()">
                         <img src="reset.png" alt="Reset">
                     </div>
